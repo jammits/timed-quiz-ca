@@ -160,11 +160,11 @@
   // -----------------------------
   function endQuiz(){
     // TODO(16): stop the timer if it's still running
-    // if (timerId) { clearInterval(timerId); timerId = null; }
+    if (timerId) { clearInterval(timerId); timerId = null; }
 
     // TODO(17): fill in finalScore and finalTime (e.g., "7 / 10" and "12s")
-    // finalScore.textContent = ???
-    // finalTime.textContent = ???
+    finalScore.textContent = `${score}/${total}`;
+    finalTime.textContent = `${timeLeft}s`;
 
     // Show Bootstrap modal
     resultModal.show();
