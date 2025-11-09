@@ -3,8 +3,16 @@
 }
 body {
   min-height: 100vh;
+}
+
+.text-white {
   background: linear-gradient(135deg, #0ea5e9, #9333ea) fixed;
 }
+
+.text-black {
+  background-color: black;
+}
+
 .glass {
   background: var(--glass);
   backdrop-filter: blur(10px);
@@ -21,3 +29,5 @@ body {
 .timer-text {
   font-variant-numeric: tabular-nums;
 }
+
+

@@ -230,5 +230,22 @@
   startTimer();
 })();
 
+const darkLightToggle = document.createElement("button");
+darkLightToggle.type = "button";
+darkLightToggle.className = 'btn btn-light text-dark choice-btn rounded-3';
+darkLightToggle.setAttribute("data-mode", "light")
+darkLightToggle.innerHTML = "Dark Mode";
+document.querySelector("header[class='container py-4']").appendChild(darkLightToggle);
 
-
+darkLightToggle.addEventListener("click", function(){
+  const page = document.querySelector("body");
+  if (darkLightToggle.getAttribute("data-mode") === "light"){
+    page.setAttribute("class","text-black")
+    darkLightToggle.setAttribute("data-mode", "dark")
+    darkLightToggle.textContent = "Light Mode";
+  } else {
+    page.setAttribute("class", "text-white");
+    darkLightToggle.setAttribute("data-mode", "light")
+    darkLightToggle.textContent = "Dark Mode";
+  }
+})
