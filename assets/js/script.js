@@ -57,7 +57,7 @@
 
   // Initialize total in UI
   // TODO(1): set qTotal's text to total
-  // qTotal.textContent = ???
+  qTotal.textContent = total
 
   // -----------------------------
   // 4) RENDER
@@ -65,25 +65,25 @@
   function render(){
     // Header + timer labels
     // TODO(2): show current question number (i+1 but capped to total)
-    // qIndex.textContent = ???
+    qIndex.textContent = i < total ? i + 1 : total;
 
     // TODO(3): update the score badge text to "Score: X/Y"
-    // scoreBadge.textContent = ???
+    scoreBadge.textContent = `Score: ${score}/${total}`;
 
     // TODO(4): update the time label to show remaining seconds like "60s"
-    // timeText.textContent = ???
+    timeText.textContent = timeLeft
 
     // Progress bar width & contextual color
     // pct should be the percentage of time remaining (0..100)
     // TODO(5): compute pct = Math.max(0, Math.round((timeLeft/60)*100));
-    // const pct = ???
+    const pct = Math.max(0,Math.round((timeLeft/60)* 100));
 
     // TODO(6): set width style and the className based on pct
-    // timeBar.style.width = ???
-    // timeBar.className = 'progress-bar progress-bar-striped progress-bar-animated ' + (pct < 20 ? 'bg-danger' : pct < 50 ? 'bg-warning' : 'bg-success');
+    timeBar.style.width = `${pct}%`;
+    timeBar.className = 'progress-bar progress-bar-striped progress-bar-animated ' + (pct < 20 ? 'bg-danger' : pct < 50 ? 'bg-warning' : 'bg-success');
 
     // End state: out of questions OR time is up
-    if (/* TODO(7): check end condition (i >= total || timeLeft <= 0) */ false) {
+    if (i >= total || timeLeft <= 0) {
       endQuiz();
       return;
     }
@@ -92,10 +92,10 @@
     const q = questions[i];
 
     // TODO(8): set the question text
-    // qText.textContent = ???
+    qText.textContent = q
 
     // TODO(9): clear previous choices (set innerHTML = '')
-    // choices.innerHTML = ???
+    choices.innerHTML = "";
 
     // Create a button for each choice
     q.choices.forEach((label, idx) => {
@@ -105,7 +105,7 @@
       btn.innerHTML = `<span class="me-2 fw-semibold">${String.fromCharCode(65+idx)}.</span> ${label}`;
 
       // TODO(10): on click, call handleChoice with a boolean indicating correctness
-      // btn.addEventListener('click', () => handleChoice( ??? ));
+      btn.addEventListener('click', () => handleChoice(idx === q.answer));
 
       choices.appendChild(btn);
     });
