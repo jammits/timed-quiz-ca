@@ -120,14 +120,14 @@
   // -----------------------------
   function handleChoice(isCorrect){
     // TODO(11): if correct, increment score and show a green badge
-    // if (isCorrect) { score++; feedback.innerHTML = '<span class="badge bg-success">Correct ✓</span>'; }
-    // else { feedback.innerHTML = '<span class="badge bg-danger">Incorrect ✗</span>'; }
+    if (isCorrect) { score++; feedback.innerHTML = '<span class="badge bg-success">Correct ✓</span>'; }
+    else { feedback.innerHTML = '<span class="badge bg-danger">Incorrect ✗</span>'; }
 
     // OPTIONAL: time penalty (uncomment if you add it)
     // else { timeLeft = Math.max(0, timeLeft - 5); }
 
     // TODO(12): advance to next question index (i++)
-    // i = ???
+    i++
 
     // Show feedback briefly, then re-render
     setTimeout(() => {
