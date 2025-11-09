@@ -141,10 +141,10 @@
   // -----------------------------
   function tick(){
     // TODO(13): decrement timeLeft but not below 0
-    // timeLeft = ???
+    timeLeft = timeLeft > 0 ? timeLeft-- : 0
 
     // TODO(14): if timeLeft is 0, stop the timer (clearInterval)
-    // if ( ??? ) { clearInterval(timerId); }
+    if ( timeLeft === 0 ) { clearInterval(timerId); }
 
     // Re-render UI to reflect new time
     render();
@@ -152,7 +152,7 @@
 
   function startTimer(){
     // TODO(15): create an interval that calls tick every 1000ms
-    // timerId = setInterval( ??? , 1000);
+    timerId = setInterval( () => tick() , 1000);
   }
 
   // -----------------------------
