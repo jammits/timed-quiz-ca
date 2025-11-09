@@ -31,7 +31,6 @@
   const total = questions.length;
   let timeLeft = 60;       // seconds remaining
   let timerId = null;      // holds the setInterval id
-  let previousQuestionIndex = -1 //keeps track of whether we are in new question
 
   // -----------------------------
   // 3) ELEMENT REFERENCES
@@ -63,6 +62,22 @@
   // -----------------------------
   // 4) RENDER
   // -----------------------------
+  function shuffle(array) {
+    let currentIndex = array.length;
+    let randomIndex;
+
+
+    while (currentIndex !== 0) {
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+  }
+
   function render(){
     // Header + timer labels
     // TODO(2): show current question number (i+1 but capped to total)
@@ -89,11 +104,21 @@
       return;
     }
 
+  }
+  function renderQuestion(){
+    render();
+
+    if (i >= total || timeLeft <= 0) {
+      endQuiz();
+      return;
+    }
     // Render current question and choices
     const q = questions[i];
 
     // TODO(8): set the question text
     qText.textContent = q.q;
+
+    q.choices = shuffle(q.choices);
 
     // TODO(9): clear previous choices (set innerHTML = '')
     choices.innerHTML = "";
@@ -113,12 +138,11 @@
 
     // Accessibility: move focus to first choice
     const firstBtn = choices.querySelector('button');
-    if (firstBtn && i != previousQuestionIndex){
-      firstBtn.focus();
+    if (firstBtn){
+      firstBtn.focus()
     };
-    previousQuestionIndex = i
-  }
 
+  }
   // -----------------------------
   // 5) HANDLERS
   // -----------------------------
@@ -138,7 +162,7 @@
     // Show feedback briefly, then re-render
     setTimeout(() => {
       feedback.textContent = '';
-      render();
+      renderQuestion();
     }, 400);
   }
 
@@ -178,8 +202,10 @@
 
   function restart(){
     // TODO(18): reset i, score, timeLeft; then render() and startTimer()
+    resultModal.hide();
     i = 0; score = 0; timeLeft = 60;
     render();
+    renderQuestion();
     startTimer();
   }
 
@@ -190,7 +216,7 @@
   // TODO(19): implement the skip click handler
   skipBtn.addEventListener('click', () => {
     i++;
-    render();
+    renderQuestion();
   });
 
   // Restart from modal button
@@ -200,5 +226,9 @@
   // Initial render + timer start
   // TODO(21): call render() and startTimer()
   render();
+  renderQuestion();
   startTimer();
 })();
+
+
+
