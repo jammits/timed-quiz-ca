@@ -31,6 +31,7 @@
   const total = questions.length;
   let timeLeft = 60;       // seconds remaining
   let timerId = null;      // holds the setInterval id
+  let previousQuestionIndex = -1 //keeps track of whether we are in new question
 
   // -----------------------------
   // 3) ELEMENT REFERENCES
@@ -92,7 +93,7 @@
     const q = questions[i];
 
     // TODO(8): set the question text
-    qText.textContent = q
+    qText.textContent = q.q;
 
     // TODO(9): clear previous choices (set innerHTML = '')
     choices.innerHTML = "";
@@ -112,7 +113,10 @@
 
     // Accessibility: move focus to first choice
     const firstBtn = choices.querySelector('button');
-    if (firstBtn) firstBtn.focus();
+    if (firstBtn && i != previousQuestionIndex){
+      firstBtn.focus();
+    };
+    previousQuestionIndex = i
   }
 
   // -----------------------------
@@ -121,10 +125,12 @@
   function handleChoice(isCorrect){
     // TODO(11): if correct, increment score and show a green badge
     if (isCorrect) { score++; feedback.innerHTML = '<span class="badge bg-success">Correct ✓</span>'; }
-    else { feedback.innerHTML = '<span class="badge bg-danger">Incorrect ✗</span>'; }
+    // else { feedback.innerHTML = '<span class="badge bg-danger">Incorrect ✗</span>'; }
 
     // OPTIONAL: time penalty (uncomment if you add it)
-    // else { timeLeft = Math.max(0, timeLeft - 5); }
+    else { timeLeft = Math.max(0, timeLeft - 5);
+      feedback.innerHTML = '<span class="badge bg-danger">Incorrect ✗</span>';
+    }
 
     // TODO(12): advance to next question index (i++)
     i++
@@ -141,7 +147,7 @@
   // -----------------------------
   function tick(){
     // TODO(13): decrement timeLeft but not below 0
-    timeLeft = timeLeft > 0 ? timeLeft-- : 0
+    timeLeft = timeLeft > 0 ? timeLeft - 1 : 0;
 
     // TODO(14): if timeLeft is 0, stop the timer (clearInterval)
     if ( timeLeft === 0 ) { clearInterval(timerId); }
@@ -172,9 +178,9 @@
 
   function restart(){
     // TODO(18): reset i, score, timeLeft; then render() and startTimer()
-    // i = ???; score = ???; timeLeft = ???;
-    // render();
-    // startTimer();
+    i = 0; score = 0; timeLeft = 60;
+    render();
+    startTimer();
   }
 
   // -----------------------------
@@ -182,14 +188,17 @@
   // -----------------------------
   // Skip just advances the question index; do not change score
   // TODO(19): implement the skip click handler
-  // skipBtn.addEventListener('click', () => { ??? });
+  skipBtn.addEventListener('click', () => {
+    i++;
+    render();
+  });
 
   // Restart from modal button
   // TODO(20): implement restart click handler
-  // restartBtn.addEventListener('click', ???);
+  restartBtn.addEventListener('click', () => restart());
 
   // Initial render + timer start
   // TODO(21): call render() and startTimer()
-  // render();
-  // startTimer();
+  render();
+  startTimer();
 })();
