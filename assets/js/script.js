@@ -62,21 +62,32 @@
   // -----------------------------
   // 4) RENDER
   // -----------------------------
-  function shuffle(array) {
-    let currentIndex = array.length;
-    let randomIndex;
+function shuffle(array, correctIndex) {
+  let currentIndex = array.length;
+  let randomIndex;
 
+  // keep track of where the correct answer moves
+  let newAnswerIndex = correctIndex;
 
-    while (currentIndex !== 0) {
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
 
-      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    // swap elements
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+
+    // if we moved the correct answer, adjust its index
+    if (currentIndex === newAnswerIndex) {
+      newAnswerIndex = randomIndex;
+    } else if (randomIndex === newAnswerIndex) {
+      newAnswerIndex = currentIndex;
     }
-
-    return array;
   }
+
+
+  return { shuffled: array, newAnswer: newAnswerIndex };
+}
+
 
   function render(){
     // Header + timer labels
@@ -118,7 +129,10 @@
     // TODO(8): set the question text
     qText.textContent = q.q;
 
-    q.choices = shuffle(q.choices);
+    const {shuffled, newAnswer} = shuffle(q.choices, q.answer);
+
+    q.choices = shuffled;
+    q.answer = newAnswer;
 
     // TODO(9): clear previous choices (set innerHTML = '')
     choices.innerHTML = "";
